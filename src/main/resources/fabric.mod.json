@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "hardcoremod",
+  "version": "${version}",
+  "name": "Hardcore Mod",
+  "description": "Making Minecraft tedious.",
+  "authors": [
+    "ethanpepro"
+  ],
+  "contact": {
+    "homepage": "https://ethanpepro.com",
+    "issues": "https://github.com/ethanpepro/HardcoreMod/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/hardcoremod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.ethanpepro.hardcoremod.client.HardcoreModClient"
+    ],
+    "main": [
+      "com.ethanpepro.hardcoremod.HardcoreMod"
+    ],
+    "modmenu": [
+      "com.ethanpepro.hardcoremod.config.HardcoreModMenuIntegration"
+    ],
+    "cardinal-components-entity": [
+      "com.ethanpepro.hardcoremod.component.HardcoreModComponents"
+    ]
+  },
+  "mixins": [
+    "hardcoremod.mixins.json"
+  ],
+  "custom": {
+    "cardinal-components": [
+      "hardcoremod:temperature"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.11.1",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  }
+}
