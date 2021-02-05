@@ -1,11 +1,7 @@
 package com.ethanpepro.hardcoremod.api.food;
 
-import com.google.common.collect.RangeMap;
-import com.google.common.collect.TreeRangeMap;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.StringIdentifiable;
-
-import java.util.Arrays;
+import net.minecraft.util.math.MathHelper;
 
 public enum ExtendedFoodStates {
     FRESH("fresh", Formatting.GREEN),
@@ -32,10 +28,11 @@ public enum ExtendedFoodStates {
     // Based Ava#4982
     public static ExtendedFoodStates getStateForPercentage(float percentage) {
         ExtendedFoodStates[] values = ExtendedFoodStates.values();
-        return values[(int)Math.floor(values.length * percentage)];
+        // TODO: Ensure all edge cases are solved!
+        return values[(int)MathHelper.clamp(values.length * percentage, 0, values.length - 1)];
     }
 }
 
 // TODO: SpecialExtendedFoodStates
 // TODO: Matches data inside special: [] to a string inside a value in SpecialExtendedFoodStates, gets color
-// TODO: Simple matching function, used for building tooltip
+// TODO: Simple matching function, used for building tooltip more dynamically

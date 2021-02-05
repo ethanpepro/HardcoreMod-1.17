@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+// TODO: Apply logic to crafting and blocks
 // TODO: Clean
 @Mixin(Item.class)
 public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
@@ -32,12 +33,9 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
     public long getMaxAge() {
         ImmutableMap<Item, ExtendedFoodComponent> foodRegistry = ExtendedFoodRegistry.getExtendedFoodRegistry();
         Item item = this.asItem();
+        ExtendedFoodComponent component = foodRegistry.get(item);
 
-        if (!foodRegistry.containsKey(item)) {
-            return 0;
-        }
-
-        return foodRegistry.get(item).age;
+        return foodRegistry.containsKey(item) ? component.age : 0;
     }
 
     @Override
@@ -45,12 +43,10 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
         return this.getMaxAge() > 0;
     }
 
-    // TODO: Make dynamic
     private String getStringForRot(float rot) {
         return ExtendedFoodStates.getStateForPercentage(rot).getName();
     }
 
-    // TODO: Make dynamic
     private Formatting getColorForRot(float rot) {
         return ExtendedFoodStates.getStateForPercentage(rot).getFormat();
     }
@@ -61,7 +57,7 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
 
     // TODO: Cleanup
     @Environment(EnvType.CLIENT)
-    @Inject(method = "appendTooltip", at = @At("TAIL"))
+    @Inject(method = "appendTooltip(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/item/TooltipContext;)V", at = @At("TAIL"))
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context, CallbackInfo info) {
         ImmutableMap<Item, ExtendedFoodComponent> foodRegistry = ExtendedFoodRegistry.getExtendedFoodRegistry();
         Item item = stack.getItem();

@@ -1,5 +1,6 @@
 package com.ethanpepro.hardcoremod.api.temperature;
 
+// TODO: For that in range, use the Google thing on SO that maps integer ranges to enum values
 // TODO: Ought to be able to dynamically modify these ranges during runtime, the rest of the code works for whatever values these are
 public enum TemperatureRange {
     FREEZING(-7, -5),

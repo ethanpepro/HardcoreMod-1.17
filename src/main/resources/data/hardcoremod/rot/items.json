@@ -30,5 +30,9 @@
   "minecraft:rotten_flesh": {
     "age": "0",
     "special": ["poisonous"]
+  },
+  "minecraft:wheat": {
+    "age": "168000",
+    "special": []
   }
 }
