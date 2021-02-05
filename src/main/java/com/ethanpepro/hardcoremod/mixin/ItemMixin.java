@@ -1,9 +1,6 @@
 package com.ethanpepro.hardcoremod.mixin;
 
-import com.ethanpepro.hardcoremod.api.food.ExtendedFoodComponent;
-import com.ethanpepro.hardcoremod.api.food.ExtendedFoodItem;
-import com.ethanpepro.hardcoremod.api.food.ExtendedFoodItemStack;
-import com.ethanpepro.hardcoremod.api.food.FoodRegistry;
+import com.ethanpepro.hardcoremod.api.food.*;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -33,7 +30,7 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
 
     @Override
     public long getMaxAge() {
-        ImmutableMap<Item, ExtendedFoodComponent> foodRegistry = FoodRegistry.getFoodRegistry();
+        ImmutableMap<Item, ExtendedFoodComponent> foodRegistry = ExtendedFoodRegistry.getExtendedFoodRegistry();
         Item item = this.asItem();
 
         if (!foodRegistry.containsKey(item)) {
@@ -50,28 +47,12 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
 
     // TODO: Make dynamic
     private String getStringForRot(float rot) {
-        if (rot < 0.25f) {
-            return "fresh";
-        } else if (rot < 0.5f) {
-            return "plain";
-        } else if (rot < 0.75f) {
-            return "stale";
-        } else {
-            return "rancid";
-        }
+        return ExtendedFoodStates.getStateForPercentage(rot).getName();
     }
 
     // TODO: Make dynamic
     private Formatting getColorForRot(float rot) {
-        if (rot < 0.25f) {
-            return Formatting.GREEN;
-        } else if (rot < 0.5f) {
-            return Formatting.DARK_GREEN;
-        } else if (rot < 0.75f) {
-            return Formatting.GRAY;
-        } else {
-            return Formatting.RED;
-        }
+        return ExtendedFoodStates.getStateForPercentage(rot).getFormat();
     }
 
     private float getRotPercentage(ItemStack stack, @Nullable World world) {
@@ -82,16 +63,17 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
     @Environment(EnvType.CLIENT)
     @Inject(method = "appendTooltip", at = @At("TAIL"))
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context, CallbackInfo info) {
-        ImmutableMap<Item, ExtendedFoodComponent> foodRegistry = FoodRegistry.getFoodRegistry();
+        ImmutableMap<Item, ExtendedFoodComponent> foodRegistry = ExtendedFoodRegistry.getExtendedFoodRegistry();
         Item item = stack.getItem();
         ExtendedFoodComponent component = foodRegistry.get(item);
 
+        // TODO: Abstract out and make more dynamic
         if (foodRegistry.containsKey(item)) {
             tooltip.add(LiteralText.EMPTY);
             tooltip.add(new TranslatableText("item.rot.status").formatted(Formatting.GRAY));
 
             if (this.canRot()) {
-                float rot = (((ExtendedFoodItemStack)(Object)stack)).getCurrentAge() != 0 ? this.getRotPercentage(stack, world) : 0.0f;
+                float rot = world != null && (((ExtendedFoodItemStack)(Object)stack)).getCurrentAge() != 0 ? this.getRotPercentage(stack, world) : 0.0f;
 
                 tooltip.add(new TranslatableText("item.rot.state." + this.getStringForRot(rot)).formatted(this.getColorForRot(rot)));
                 tooltip.add((new TranslatableText("item.rot.format", (int)(Math.min(rot, 1.0f) * 100), new TranslatableText("item.rot.spoiled"))).formatted(Formatting.GRAY));

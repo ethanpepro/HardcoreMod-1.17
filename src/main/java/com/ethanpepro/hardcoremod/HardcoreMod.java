@@ -1,6 +1,6 @@
 package com.ethanpepro.hardcoremod;
 
-import com.ethanpepro.hardcoremod.api.food.FoodRegistry;
+import com.ethanpepro.hardcoremod.api.food.ExtendedFoodRegistry;
 import com.ethanpepro.hardcoremod.temperature.HardcoreModTemperatures;
 import com.ethanpepro.hardcoremod.api.food.ExtendedFoodComponent;
 import com.google.gson.Gson;
@@ -39,9 +39,10 @@ public class HardcoreMod implements ModInitializer {
                 return new Identifier("hardcoremod", "hardcoremod_resources");
             }
 
+            // TODO: Abstract out
             @Override
             public void apply(ResourceManager manager) {
-                FoodRegistry.clearFood();
+                ExtendedFoodRegistry.clearExtendedFood();
 
                 for (Identifier identifier : manager.findResources("rot", path -> path.endsWith(".json"))) {
                     try (InputStream stream = manager.getResource(identifier).getInputStream()) {
@@ -60,7 +61,7 @@ public class HardcoreMod implements ModInitializer {
                             JsonObject object = entry.getValue().getAsJsonObject();
                             ExtendedFoodComponent component = gson.fromJson(object, ExtendedFoodComponent.class);
 
-                            FoodRegistry.registerFood(item, component);
+                            ExtendedFoodRegistry.registerExtendedFood(item, component);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
