@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-// TODO: Apply logic to crafting and blocks
+// TODO: Apply logic to crafting, blocks, and non-edible items
 // TODO: Clean
 @Mixin(Item.class)
 public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
@@ -43,19 +43,15 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
         return this.getMaxAge() > 0;
     }
 
-    private String getStringForRot(float rot) {
-        return ExtendedFoodStates.getStateForPercentage(rot).getName();
-    }
-
-    private Formatting getColorForRot(float rot) {
-        return ExtendedFoodStates.getStateForPercentage(rot).getFormat();
-    }
-
+    // TODO: Abstract out
+    @SuppressWarnings("ConstantConditions")
     private float getRotPercentage(ItemStack stack, @Nullable World world) {
         return world != null ? (float)(world.getTime() - (((ExtendedFoodItemStack)(Object)stack).getCurrentAge())) / this.getMaxAge() : 0.0f;
     }
 
     // TODO: Cleanup
+    // TODO: Finalize how tooltips are laid out
+    @SuppressWarnings("ConstantConditions")
     @Environment(EnvType.CLIENT)
     @Inject(method = "appendTooltip(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/item/TooltipContext;)V", at = @At("TAIL"))
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context, CallbackInfo info) {
@@ -63,23 +59,25 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
         Item item = stack.getItem();
         ExtendedFoodComponent component = foodRegistry.get(item);
 
-        // TODO: Abstract out and make more dynamic
         if (foodRegistry.containsKey(item)) {
             tooltip.add(LiteralText.EMPTY);
             tooltip.add(new TranslatableText("item.rot.status").formatted(Formatting.GRAY));
 
             if (this.canRot()) {
                 float rot = world != null && (((ExtendedFoodItemStack)(Object)stack)).getCurrentAge() != 0 ? this.getRotPercentage(stack, world) : 0.0f;
+                ExtendedFoodStates state = ExtendedFoodStates.getStateForPercentage(rot);
 
-                tooltip.add(new TranslatableText("item.rot.state." + this.getStringForRot(rot)).formatted(this.getColorForRot(rot)));
+                tooltip.add(new TranslatableText("item.rot.state." + state.getName()).formatted(state.getFormat()));
                 tooltip.add((new TranslatableText("item.rot.format", (int)(Math.min(rot, 1.0f) * 100), new TranslatableText("item.rot.spoiled"))).formatted(Formatting.GRAY));
-            } else {
-                if (component.special.contains("poisonous")) {
-                    tooltip.add(new TranslatableText("item.rot.state.special.poisonous").formatted(Formatting.DARK_RED));
-                } else if (component.special.contains("enchanted")) {
-                    tooltip.add(new TranslatableText("item.rot.state.special.enchanted").formatted(Formatting.YELLOW));
-                } else {
-                    tooltip.add(new TranslatableText("item.rot.state.special.preserved").formatted(Formatting.GOLD));
+            } else if (!ExtendedFoodSpecialStates.containsVisibleSpecials(component.special)) {
+                tooltip.add(new TranslatableText("item.rot.state.other.preserved").formatted(Formatting.GOLD));
+            }
+
+            for (String special : component.special) {
+                ExtendedFoodSpecialStates state = ExtendedFoodSpecialStates.getStateForSpecial(special);
+
+                if (state.canDisplay()) {
+                    tooltip.add(new TranslatableText("item.rot.state.special." + state.getName()).formatted(state.getFormat()));
                 }
             }
         }

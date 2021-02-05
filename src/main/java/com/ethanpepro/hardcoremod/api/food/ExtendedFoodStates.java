@@ -5,7 +5,7 @@ import net.minecraft.util.math.MathHelper;
 
 public enum ExtendedFoodStates {
     FRESH("fresh", Formatting.GREEN),
-    PLAIN("plain", Formatting.DARK_GREEN),
+    RIPE("ripe", Formatting.DARK_GREEN),
     STALE("stale", Formatting.LIGHT_PURPLE),
     RANCID("rancid", Formatting.RED);
 
@@ -22,17 +22,14 @@ public enum ExtendedFoodStates {
     }
 
     public Formatting getFormat() {
-        return format;
+        return this.format;
     }
 
     // Based Ava#4982
     public static ExtendedFoodStates getStateForPercentage(float percentage) {
         ExtendedFoodStates[] values = ExtendedFoodStates.values();
         // TODO: Ensure all edge cases are solved!
+        // TODO: Simplify?
         return values[(int)MathHelper.clamp(values.length * percentage, 0, values.length - 1)];
     }
 }
-
-// TODO: SpecialExtendedFoodStates
-// TODO: Matches data inside special: [] to a string inside a value in SpecialExtendedFoodStates, gets color
-// TODO: Simple matching function, used for building tooltip more dynamically

@@ -39,7 +39,9 @@ public class HardcoreMod implements ModInitializer {
                 return new Identifier("hardcoremod", "hardcoremod_resources");
             }
 
-            // TODO: Abstract out
+            // TODO: Abstract out handling
+            // TODO: Rename items.json to each creative category and iterate
+            // TODO: ITEM, BLOCK
             @Override
             public void apply(ResourceManager manager) {
                 ExtendedFoodRegistry.clearExtendedFood();
