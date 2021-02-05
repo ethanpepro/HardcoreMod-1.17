@@ -66,6 +66,8 @@ public abstract class ItemStackMixin implements ExtendedFoodItemStack {
 
                 // TODO: Avoid multiple checks, resolve this once API is set in
                 // TODO: Food marked "poisonous" should be 100%? Or scale too?
+                // TODO: Not in here, but food at 100% should be tooltipped poisonous?
+                // TODO: Not in here too, but maybe (internal) "unsafe" tooltip on food marked non-poisonous? Separate poison and spoilage
                 if (rot > 0.5f || component.special.contains(ExtendedFoodSpecialStates.POISONOUS.getName())) {
                     HardcoreMod.LOGGER.info("!");
                 }
