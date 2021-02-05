@@ -6,8 +6,10 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 public class AltitudeModifier extends TemperatureModifier {
+    private static final Identifier TEMPERATURE_MODIFIER_ID = new Identifier("hardcoremod", "altitude");
+
     public AltitudeModifier() {
-        super(new Identifier("hardcoremod", "altitude"));
+        super(TEMPERATURE_MODIFIER_ID);
     }
 
     @Override
@@ -17,6 +19,6 @@ public class AltitudeModifier extends TemperatureModifier {
 
     @Override
     public float getWorldModifier(@NotNull World world, @NotNull BlockPos pos) {
-        return 0.0f;
+        return 7.0f;
     }
 }

@@ -4,7 +4,8 @@
   "package": "com.ethanpepro.hardcoremod.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-
+    "ItemMixin",
+    "ItemStackMixin"
   ],
   "client": [
     "InGameHudMixin"

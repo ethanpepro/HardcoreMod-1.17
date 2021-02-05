@@ -1,3 +1,12 @@
 {
-
+  "item.rot.status": "Food status:",
+  "item.rot.state.fresh": "Fresh",
+  "item.rot.state.plain": "Plain",
+  "item.rot.state.stale": "Stale",
+  "item.rot.state.rancid": "Rancid",
+  "item.rot.state.special.preserved": "Preserved",
+  "item.rot.state.special.poisonous": "Poisonous",
+  "item.rot.state.special.enchanted": "Enchanted",
+  "item.rot.format": "%s%% %s",
+  "item.rot.spoiled": "spoiled"
 }

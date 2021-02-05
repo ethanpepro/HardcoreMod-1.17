@@ -1,4 +1,7 @@
 plugins {
+    id 'java'
+    id 'idea'
+    id 'checkstyle'
     id 'fabric-loom' version '0.5-SNAPSHOT'
     id 'maven-publish'
 }
@@ -55,6 +58,10 @@ dependencies {
     }
 
     modImplementation "me.shedaniel.cloth:basic-math:${project.basicmath_verison}"
+
+    modApi("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.

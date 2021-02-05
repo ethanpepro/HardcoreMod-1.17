@@ -3,39 +3,40 @@ package com.ethanpepro.hardcoremod.api.temperature;
 import com.ethanpepro.hardcoremod.api.temperature.modifier.ITemperatureDynamicModifier;
 import com.ethanpepro.hardcoremod.api.temperature.modifier.ITemperatureModifier;
 import com.google.common.collect.ImmutableMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
 
 public class TemperatureRegistry {
-    private static final LinkedHashMap<Identifier, ITemperatureModifier> modifiers = new LinkedHashMap<>();
+    private static final Object2ObjectOpenHashMap<Identifier, ITemperatureModifier> temperatureModifiers = new Object2ObjectOpenHashMap<>();
 
-    private static final LinkedHashMap<Identifier, ITemperatureDynamicModifier> dynamicModifiers = new LinkedHashMap<>();
+    private static final Object2ObjectOpenHashMap<Identifier, ITemperatureDynamicModifier> temepratureDynamicModifiers = new Object2ObjectOpenHashMap<>();
 
     public static void registerModifier(ITemperatureModifier modifier) {
         Identifier identifier = modifier.getIdentifier();
 
-        if (!modifiers.containsKey(identifier)) {
-            modifiers.put(identifier, modifier);
+        if (!temperatureModifiers.containsKey(identifier)) {
+            temperatureModifiers.put(identifier, modifier);
         }
     }
 
     @NotNull
     public static ImmutableMap<Identifier, ITemperatureModifier> getTemperatureModifiers() {
-        return ImmutableMap.copyOf(modifiers);
+        return ImmutableMap.copyOf(temperatureModifiers);
     }
 
     public static void registerDynamicModifier(ITemperatureDynamicModifier dynamicModifier) {
         Identifier identifier = dynamicModifier.getIdentifier();
 
-        if (!dynamicModifiers.containsKey(identifier)) {
-            dynamicModifiers.put(identifier, dynamicModifier);
+        if (!temepratureDynamicModifiers.containsKey(identifier)) {
+            temepratureDynamicModifiers.put(identifier, dynamicModifier);
         }
     }
 
     @NotNull
     public static ImmutableMap<Identifier, ITemperatureDynamicModifier> getTemperatureDynamicModifiers() {
-        return ImmutableMap.copyOf(dynamicModifiers);
+        return ImmutableMap.copyOf(temepratureDynamicModifiers);
     }
 }

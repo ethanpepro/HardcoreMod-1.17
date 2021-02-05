@@ -1,0 +1,34 @@
+{
+  "minecraft:apple": {
+    "age": "168000",
+    "special": []
+  },
+  "minecraft:bread": {
+    "age": "168000",
+    "special": []
+  },
+  "minecraft:cod": {
+    "age": "48000",
+    "special": []
+  },
+  "minecraft:milk_bucket": {
+    "age": "24000",
+    "special": []
+  },
+  "minecraft:honey_bottle": {
+    "age": "0",
+    "special": []
+  },
+  "minecraft:golden_apple": {
+    "age": "0",
+    "special": ["enchanted"]
+  },
+  "minecraft:enchanted_golden_apple": {
+    "age": "0",
+    "special": ["enchanted"]
+  },
+  "minecraft:rotten_flesh": {
+    "age": "0",
+    "special": ["poisonous"]
+  }
+}
