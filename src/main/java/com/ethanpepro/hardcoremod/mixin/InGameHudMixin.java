@@ -77,21 +77,15 @@ public abstract class InGameHudMixin extends DrawableHelper {
         // TODO: Abstract out to a class and finalize (orb rendering was never meant to be here)
         PlayerEntity playerEntity = this.getCameraPlayer();
 
-        if (playerEntity != null) {
+        if (playerEntity != null && !this.client.options.hudHidden && !this.client.options.debugEnabled) {
             List<String> list = Lists.newArrayList();
 
-            list.add("Registered temperature modifiers:");
-
             for (ITemperatureModifier modifier : TemperatureRegistry.getTemperatureModifiers().values()) {
-                list.add("");
-                list.add(String.format("- %s:%s", modifier.getIdentifier().getNamespace(), modifier.getIdentifier().getPath()));
+                list.add(String.format("%s:%s", modifier.getIdentifier().getNamespace(), modifier.getIdentifier().getPath()));
             }
 
-            list.add("");
-
             for (ITemperatureDynamicModifier dynamicModifier : TemperatureRegistry.getTemperatureDynamicModifiers().values()) {
-                list.add("");
-                list.add(String.format("- %s:%s", dynamicModifier.getIdentifier().getNamespace(), dynamicModifier.getIdentifier().getPath()));
+                list.add(String.format("%s:%s", dynamicModifier.getIdentifier().getNamespace(), dynamicModifier.getIdentifier().getPath()));
             }
 
             for (int i = 0; i < list.size(); ++i) {
@@ -106,7 +100,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
             }
         }
 
-        if (playerEntity != null) {
+        // TODO: Shift tooltip height of held items!
+        if (playerEntity != null && !this.client.options.hudHidden && this.client.interactionManager != null && this.client.interactionManager.hasStatusBars()) {
             int x = this.scaledWidth / 2 - 8;
             int offset = (playerEntity.experienceLevel > 0) ? 54 : 48;
             int y = this.scaledHeight - offset;
@@ -120,7 +115,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
             int k = Math.round(modifier * Math.abs(temperature) + 20.0f);
 
-            if (this.ticks % (k * 3 + 1) == 0) {
+            if (this.ticks % (k * 2 + 1) == 0) {
                 y += (this.random.nextInt(3) - 1);
             }
 
