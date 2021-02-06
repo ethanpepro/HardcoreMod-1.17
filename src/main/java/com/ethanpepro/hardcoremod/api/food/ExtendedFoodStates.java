@@ -13,7 +13,7 @@ public enum ExtendedFoodStates {
     private final String name;
     private final Formatting format;
 
-    ExtendedFoodStates (String name, Formatting format) {
+    ExtendedFoodStates(String name, Formatting format) {
         this.name = name;
         this.format = format;
     }

@@ -18,7 +18,7 @@ public enum ExtendedFoodSpecialStates {
     private final Formatting format;
     private final boolean display;
 
-    ExtendedFoodSpecialStates (String name, Formatting format, boolean display) {
+    ExtendedFoodSpecialStates(String name, Formatting format, boolean display) {
         this.name = name;
         this.format = format;
         this.display = display;
