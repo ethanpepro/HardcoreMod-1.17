@@ -13,7 +13,7 @@
   },
   "minecraft:porkchop": {
     "age": "48000",
-    "special": ["poisonous"]
+    "special": []
   },
   "minecraft:cooked_porkchop": {
     "age": "72000",
@@ -41,7 +41,7 @@
   },
   "minecraft:pufferfish": {
     "age": "48000",
-    "special": ["poisonous"]
+    "special": []
   },
   "minecraft:cooked_cod": {
     "age": "72000",
@@ -69,7 +69,7 @@
   },
   "minecraft:beef": {
     "age": "48000",
-    "special": ["poisonous"]
+    "special": []
   },
   "minecraft:cooked_beef": {
     "age": "72000",
@@ -77,18 +77,18 @@
   },
   "minecraft:chicken": {
     "age": "48000",
-    "special": ["poisonous"]
+    "special": []
   },
   "minecraft:cooked_chicken": {
     "age": "72000",
     "special": []
   },
   "minecraft:rotten_flesh": {
-    "age": "168000",
+    "age": "0",
     "special": ["poisonous"]
   },
   "minecraft:spider_eye": {
-    "age": "168000",
+    "age": "0",
     "special": ["poisonous"]
   },
   "minecraft:carrot": {
@@ -104,7 +104,7 @@
     "special": []
   },
   "minecraft:poisonous_potato": {
-    "age": "96000",
+    "age": "0",
     "special": ["poisonous"]
   },
   "minecraft:pumpkin_pie": {
@@ -113,7 +113,7 @@
   },
   "minecraft:rabbit": {
     "age": "48000",
-    "special": ["poisonous"]
+    "special": []
   },
   "minecraft:cooked_rabbit": {
     "age": "72000",
@@ -125,7 +125,7 @@
   },
   "minecraft:mutton": {
     "age": "48000",
-    "special": ["poisonous"]
+    "special": []
   },
   "minecraft:cooked_mutton": {
     "age": "72000",
@@ -159,6 +159,11 @@
 
   "minecraft:golden_carrot": {
     "age": "336000",
+    "special": []
+  },
+
+  "minecraft:suspicious_stew": {
+    "age": "96000",
     "special": []
   }
 }

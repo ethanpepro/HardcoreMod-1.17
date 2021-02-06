@@ -39,7 +39,11 @@ public abstract class ItemStackMixin implements ExtendedFoodItemStack {
         return (float)(world.getTime() - (((ExtendedFoodItemStack)this).getCurrentAge())) / ((ExtendedFoodItem)item).getMaxAge();
     }
 
-    // TODO: Make stackable after 100%?
+    // TODO: dropStack, dropItem, Piglin exceptions
+    // TODO: For the crafting system, since this is just a massive place to throw notes, take the average rot % of the ingredients to make new item rot %
+    // TODO: System for transferring rot between crafting items, especially ingredient -> ingredient block
+    // TODO: Make individually stackable after 100%?
+    // TODO: Bigger issue, villager trades with food are impossible
     // TODO: Tick elsewhere (mob drops will not get tagged, etc.)
     @Inject(method = "inventoryTick(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V", at = @At("TAIL"))
     public void inventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo info) {

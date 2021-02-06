@@ -8,6 +8,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public class TemperatureHelper {
     // TODO: Remove once configs are in
     public static final int EQUILIBRIUM_TEMPERATURE = TemperatureRange.TEMPERATE.getMiddle();
@@ -15,17 +17,13 @@ public class TemperatureHelper {
     public static final int HYPOTHERMIA_THRESHOLD = TemperatureRange.CHILLY.getMiddle();
 
     public static int clampTemperatureInRange(float temperature) {
-        return MathHelper.clamp(Math.round(temperature), TemperatureRange.FREEZING.getLowerBound(), TemperatureRange.BURNING.getUpperBound());
+        return (int)MathHelper.clamp(temperature, TemperatureRange.FREEZING.getLowerBound(), TemperatureRange.BURNING.getUpperBound());
     }
 
+    // TODO: TemperatureRange.values()[TemperatureRange.values().length - 1] : TemperatureRange.values()[0]
+    @NotNull
     public static TemperatureRange getTemperatureRangeFromTemperature(int temperature) {
-        for (TemperatureRange temperatureRange : TemperatureRange.values()) {
-            if (temperatureRange.isInRange(temperature)) {
-                return temperatureRange;
-            }
-        }
-
-        return (temperature > 0) ? TemperatureRange.BURNING : TemperatureRange.FREEZING;
+        return Arrays.stream(TemperatureRange.values()).filter(range -> range.isInRange(temperature)).findFirst().orElse(temperature > 0 ? TemperatureRange.BURNING : TemperatureRange.FREEZING);
     }
 
     public static float getPlayerTemperatureTarget(@NotNull PlayerEntity player) {

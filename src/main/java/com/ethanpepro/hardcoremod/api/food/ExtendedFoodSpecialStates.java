@@ -1,13 +1,17 @@
 package com.ethanpepro.hardcoremod.api.food;
 
 import net.minecraft.util.Formatting;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 
 // TODO: Work this out?
 public enum ExtendedFoodSpecialStates {
+    // TODO: Reserve poisonous for food that does *not* rot and *not* for food! Get rid of it on normal items
+    // TODO: Should poisonous items rot?
     POISONOUS("poisonous", Formatting.RED, true),
+    // TODO: Should enchanted items rot?
     ENCHANTED("enchanted", Formatting.AQUA, true);
 
     private final String name;
@@ -32,6 +36,7 @@ public enum ExtendedFoodSpecialStates {
         return this.display;
     }
 
+    @Nullable
     public static ExtendedFoodSpecialStates getStateForSpecial(String special) {
         return Arrays.stream(values()).filter(value -> value.getName().equals(special)).findFirst().orElse(null);
     }
@@ -41,7 +46,7 @@ public enum ExtendedFoodSpecialStates {
         for (String value : special) {
             ExtendedFoodSpecialStates state = getStateForSpecial(value);
 
-            if (state.canDisplay()) {
+            if (state != null && state.canDisplay()) {
                 return true;
             }
         }

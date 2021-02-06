@@ -2,6 +2,7 @@ package com.ethanpepro.hardcoremod.api.food;
 
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.NotNull;
 
 public enum ExtendedFoodStates {
     FRESH("fresh", Formatting.GREEN),
@@ -26,10 +27,9 @@ public enum ExtendedFoodStates {
     }
 
     // Based Ava#4982
+    @NotNull
     public static ExtendedFoodStates getStateForPercentage(float percentage) {
         ExtendedFoodStates[] values = ExtendedFoodStates.values();
-        // TODO: Ensure all edge cases are solved!
-        // TODO: Simplify?
         return values[(int)MathHelper.clamp(values.length * percentage, 0, values.length - 1)];
     }
 }

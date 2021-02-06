@@ -12,6 +12,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -46,7 +47,7 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
     // TODO: Abstract out
     @SuppressWarnings("ConstantConditions")
     private float getRotPercentage(ItemStack stack, @Nullable World world) {
-        return world != null ? (float)(world.getTime() - (((ExtendedFoodItemStack)(Object)stack).getCurrentAge())) / this.getMaxAge() : 0.0f;
+        return world != null ? (float)(world.getTime() - ((ExtendedFoodItemStack)(Object)stack).getCurrentAge()) / this.getMaxAge() : 0.0f;
     }
 
     // TODO: Cleanup
@@ -64,11 +65,14 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
             tooltip.add(new TranslatableText("item.rot.status").formatted(Formatting.GRAY));
 
             if (this.canRot()) {
-                float rot = world != null && (((ExtendedFoodItemStack)(Object)stack)).getCurrentAge() != 0 ? this.getRotPercentage(stack, world) : 0.0f;
+                float rot = world != null && ((ExtendedFoodItemStack)(Object)stack).getCurrentAge() != 0 ? this.getRotPercentage(stack, world) : 0.0f;
                 ExtendedFoodStates state = ExtendedFoodStates.getStateForPercentage(rot);
 
                 tooltip.add(new TranslatableText("item.rot.state." + state.getName()).formatted(state.getFormat()));
-                tooltip.add((new TranslatableText("item.rot.format", (int)(Math.min(rot, 1.0f) * 100), new TranslatableText("item.rot.spoiled"))).formatted(Formatting.GRAY));
+                // TODO: Make config option
+                if (!world.getLevelProperties().isHardcore()) {
+                    tooltip.add((new TranslatableText("item.rot.format", (int)(Math.min(rot, 1.0f) * 100), new TranslatableText("item.rot.spoiled"))).formatted(Formatting.GRAY));
+                }
             } else if (!ExtendedFoodSpecialStates.containsVisibleSpecials(component.special)) {
                 tooltip.add(new TranslatableText("item.rot.state.other.preserved").formatted(Formatting.GOLD));
             }
@@ -76,7 +80,7 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
             for (String special : component.special) {
                 ExtendedFoodSpecialStates state = ExtendedFoodSpecialStates.getStateForSpecial(special);
 
-                if (state.canDisplay()) {
+                if (state != null && state.canDisplay()) {
                     tooltip.add(new TranslatableText("item.rot.state.special." + state.getName()).formatted(state.getFormat()));
                 }
             }
