@@ -19,6 +19,6 @@ public class AltitudeModifier extends TemperatureModifier {
 
     @Override
     public float getWorldModifier(@NotNull World world, @NotNull BlockPos pos) {
-        return 7.0f;
+        return 0.0f;
     }
 }

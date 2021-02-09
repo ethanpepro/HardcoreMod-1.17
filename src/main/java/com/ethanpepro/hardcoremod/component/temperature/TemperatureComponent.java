@@ -56,7 +56,7 @@ public class TemperatureComponent implements ComponentV3, AutoSyncedComponent, S
     // TODO: Can be simplified?
     private int getTemperatureTickLimit() {
         int tickRange = MAX_TICK_LIMIT - MIN_TICK_LIMIT;
-        int temperatureRange = (this.targetTemperature > 0) ? TemperatureRange.BURNING.getUpperBound() - TemperatureHelper.EQUILIBRIUM_TEMPERATURE : TemperatureHelper.EQUILIBRIUM_TEMPERATURE - TemperatureRange.FREEZING.getLowerBound();
+        int temperatureRange = this.targetTemperature > 0 ? TemperatureRange.BURNING.getUpperBound() - TemperatureHelper.EQUILIBRIUM_TEMPERATURE : TemperatureHelper.EQUILIBRIUM_TEMPERATURE - TemperatureRange.FREEZING.getLowerBound();
         int currentRange = Math.abs(this.temperatureLevel - this.targetTemperature);
 
         return Math.max(MIN_TICK_LIMIT, MAX_TICK_LIMIT - (currentRange * tickRange) / temperatureRange);

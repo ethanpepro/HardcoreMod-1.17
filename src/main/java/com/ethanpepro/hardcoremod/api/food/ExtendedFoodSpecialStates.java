@@ -6,9 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: Work this out?
 public enum ExtendedFoodSpecialStates {
-    // TODO: Reserve poisonous for food that does *not* rot and *not* for food! Get rid of it on normal items
     // TODO: Should poisonous items rot?
     POISONOUS("poisonous", Formatting.RED, true),
     // TODO: Should enchanted items rot?

@@ -20,7 +20,6 @@ public class TemperatureHelper {
         return (int)MathHelper.clamp(temperature, TemperatureRange.FREEZING.getLowerBound(), TemperatureRange.BURNING.getUpperBound());
     }
 
-    // TODO: TemperatureRange.values()[TemperatureRange.values().length - 1] : TemperatureRange.values()[0]
     @NotNull
     public static TemperatureRange getTemperatureRangeFromTemperature(int temperature) {
         return Arrays.stream(TemperatureRange.values()).filter(range -> range.isInRange(temperature)).findFirst().orElse(temperature > 0 ? TemperatureRange.BURNING : TemperatureRange.FREEZING);

@@ -1,5 +1,5 @@
 package com.ethanpepro.hardcoremod.api.food;
 
-public interface ExtendedFoodItemStack {
+public interface IExtendedFoodItemStack {
     long getCurrentAge();
 }

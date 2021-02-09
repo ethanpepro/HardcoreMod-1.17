@@ -4,14 +4,14 @@
   "package": "com.ethanpepro.hardcoremod.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ItemMixin",
-    "ItemStackMixin"
+    "MixinItem",
+    "MixinItemStack",
+    "MixinItemEntity",
   ],
   "client": [
-    "InGameHudMixin"
+    "MixinInGameHud"
   ],
   "server": [
-
   ],
   "injectors": {
     "defaultRequire": 1

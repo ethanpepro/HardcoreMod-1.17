@@ -12,7 +12,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,10 +22,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-// TODO: Apply logic to crafting, blocks, and non-edible items
-// TODO: Clean
 @Mixin(Item.class)
-public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
+public abstract class MixinItem implements ItemConvertible, IExtendedFoodItem {
     @Shadow
     public abstract Item asItem();
 
@@ -44,14 +41,11 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
         return this.getMaxAge() > 0;
     }
 
-    // TODO: Abstract out
     @SuppressWarnings("ConstantConditions")
     private float getRotPercentage(ItemStack stack, @Nullable World world) {
-        return world != null ? (float)(world.getTime() - ((ExtendedFoodItemStack)(Object)stack).getCurrentAge()) / this.getMaxAge() : 0.0f;
+        return world != null ? (float)(world.getTime() - ((IExtendedFoodItemStack)(Object)stack).getCurrentAge()) / this.getMaxAge() : 0.0f;
     }
 
-    // TODO: Cleanup
-    // TODO: Finalize how tooltips are laid out
     @SuppressWarnings("ConstantConditions")
     @Environment(EnvType.CLIENT)
     @Inject(method = "appendTooltip(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/item/TooltipContext;)V", at = @At("TAIL"))
@@ -60,12 +54,12 @@ public abstract class ItemMixin implements ItemConvertible, ExtendedFoodItem {
         Item item = stack.getItem();
         ExtendedFoodComponent component = foodRegistry.get(item);
 
-        if (foodRegistry.containsKey(item)) {
+        if (world != null && foodRegistry.containsKey(item)) {
             tooltip.add(LiteralText.EMPTY);
             tooltip.add(new TranslatableText("item.rot.status").formatted(Formatting.GRAY));
 
             if (this.canRot()) {
-                float rot = world != null && ((ExtendedFoodItemStack)(Object)stack).getCurrentAge() != 0 ? this.getRotPercentage(stack, world) : 0.0f;
+                float rot = ((IExtendedFoodItemStack)(Object)stack).getCurrentAge() != 0 ? this.getRotPercentage(stack, world) : 0.0f;
                 ExtendedFoodStates state = ExtendedFoodStates.getStateForPercentage(rot);
 
                 tooltip.add(new TranslatableText("item.rot.state." + state.getName()).formatted(state.getFormat()));

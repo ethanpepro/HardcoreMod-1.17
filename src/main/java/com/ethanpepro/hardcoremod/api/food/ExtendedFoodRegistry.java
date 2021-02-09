@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.item.Item;
 import org.jetbrains.annotations.NotNull;
 
-// TODO: Finalize name
 public class ExtendedFoodRegistry {
     private static final Object2ObjectOpenHashMap<Item, ExtendedFoodComponent> extendedFoodRegistry = new Object2ObjectOpenHashMap<>();
 
