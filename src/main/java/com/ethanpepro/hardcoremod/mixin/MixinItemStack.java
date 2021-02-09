@@ -1,6 +1,7 @@
 package com.ethanpepro.hardcoremod.mixin;
 
-import com.ethanpepro.hardcoremod.api.food.*;
+import com.ethanpepro.hardcoremod.api.food.IExtendedFoodItem;
+import com.ethanpepro.hardcoremod.api.food.IExtendedFoodItemStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
@@ -30,6 +31,14 @@ public abstract class MixinItemStack implements IExtendedFoodItemStack {
     @Override
     public long getCurrentAge() {
         return this.getTag() != null ? this.getTag().getLong("age") : 0;
+    }
+
+    // TODO: Just for fun, this can never work out though (see main class)
+    @Inject(method = "getMaxCount()I", at = @At("HEAD"), cancellable = true)
+    public void getMaxCount(CallbackInfoReturnable<Integer> info) {
+        if (((IExtendedFoodItem)this.getItem()).canRot()) {
+            info.setReturnValue(1);
+        }
     }
 
     @Inject(method = "inventoryTick(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V", at = @At("TAIL"))

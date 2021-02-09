@@ -26,7 +26,7 @@ public enum ExtendedFoodStates {
         return this.format;
     }
 
-    // Based Ava#4982
+    // Ava#4982 is based
     @NotNull
     public static ExtendedFoodStates getStateForPercentage(float percentage) {
         ExtendedFoodStates[] values = ExtendedFoodStates.values();

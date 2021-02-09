@@ -71,13 +71,7 @@ public abstract class MixinItem implements ItemConvertible, IExtendedFoodItem {
                 tooltip.add(new TranslatableText("item.rot.state.other.preserved").formatted(Formatting.GOLD));
             }
 
-            for (String special : component.special) {
-                ExtendedFoodSpecialStates state = ExtendedFoodSpecialStates.getStateForSpecial(special);
-
-                if (state != null && state.canDisplay()) {
-                    tooltip.add(new TranslatableText("item.rot.state.special." + state.getName()).formatted(state.getFormat()));
-                }
-            }
+            component.special.stream().map(ExtendedFoodSpecialStates::getStateForSpecial).filter(state -> state != null && state.canDisplay()).map(state -> new TranslatableText("item.rot.state.special." + state.getName()).formatted(state.getFormat())).forEach(tooltip::add);
         }
     }
 }

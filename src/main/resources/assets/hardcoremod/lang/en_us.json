@@ -1,5 +1,5 @@
 {
-  "item.rot.status": "Food status:",
+  "item.rot.status": "Status:",
   "item.rot.state.fresh": "Fresh",
   "item.rot.state.ripe": "Ripe",
   "item.rot.state.stale": "Stale",

@@ -3,7 +3,7 @@ package com.ethanpepro.hardcoremod.client;
 import com.ethanpepro.hardcoremod.HardcoreMod;
 import com.ethanpepro.hardcoremod.config.HardcoreModConfig;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,6 +14,6 @@ public class HardcoreModClient implements ClientModInitializer {
     public void onInitializeClient() {
         HardcoreMod.LOGGER.debug("onInitializeClient()");
 
-        AutoConfig.register(HardcoreModConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(HardcoreModConfig.class, GsonConfigSerializer::new);
     }
 }

@@ -39,16 +39,7 @@ public enum ExtendedFoodSpecialStates {
         return Arrays.stream(values()).filter(value -> value.getName().equals(special)).findFirst().orElse(null);
     }
 
-    // TODO: Not sure about this, better way?
     public static boolean containsVisibleSpecials(List<String> special) {
-        for (String value : special) {
-            ExtendedFoodSpecialStates state = getStateForSpecial(value);
-
-            if (state != null && state.canDisplay()) {
-                return true;
-            }
-        }
-
-        return false;
+        return special.stream().map(ExtendedFoodSpecialStates::getStateForSpecial).anyMatch(state -> state != null && state.canDisplay());
     }
 }
