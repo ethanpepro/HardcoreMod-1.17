@@ -68,13 +68,15 @@ public class HardcoreMod implements ModInitializer {
             }
 
             // TODO: Abstract out handling
-            // TODO: Rename items.json to each creative category and iterate
+            // TODO: Rename miscellaneous.json to each creative category and iterate
             // TODO: ITEM, BLOCK
             @Override
             public void apply(ResourceManager manager) {
                 ExtendedFoodRegistry.clearExtendedFood();
 
                 for (Identifier identifier : manager.findResources("rot", path -> path.endsWith(".json"))) {
+                    HardcoreMod.LOGGER.debug("Processing resource: {}", identifier.toString());
+
                     try (InputStream stream = manager.getResource(identifier).getInputStream()) {
                         JsonParser parser = new JsonParser();
                         JsonObject root = parser.parse(new JsonReader(new InputStreamReader(stream))).getAsJsonObject();

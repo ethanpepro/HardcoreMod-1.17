@@ -71,7 +71,7 @@ public class TemperatureComponent implements ComponentV3, AutoSyncedComponent, S
 
             this.targetTemperature = this.getTargetTemperatureForPlayer(this.player);
 
-            HardcoreMod.LOGGER.debug("[serverTick] {} -> {} ({}/{})", this.temperatureLevel, this.targetTemperature, this.temperatureTickTimer, this.getTemperatureTickLimit());
+            HardcoreMod.LOGGER.debug("{} -> {} ({}/{})", this.temperatureLevel, this.targetTemperature, this.temperatureTickTimer, this.getTemperatureTickLimit());
         }
 
         this.temperatureTickTimer++;
