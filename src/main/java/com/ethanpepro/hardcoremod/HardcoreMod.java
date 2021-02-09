@@ -26,7 +26,7 @@ import java.util.Set;
 
 // This is a landing page for general to-do stuff
 
-// TODO: Absolutely need a (properly, not you Tweed) synced config system
+// TODO: Absolutely need a (Tweed is promising but is too easily fooled :() synced config system
 
 // TODO: For food preservation systems, like ice boxes, periodically apply a long ageExtension modifier (this would be done as a tag) to age to get a new difference for a time in the future when the food spoils
 // TODO: An ice box example would have a value contained within it that has a long maxAgeExtension that once is reached, the food cannot be preserved any longer
