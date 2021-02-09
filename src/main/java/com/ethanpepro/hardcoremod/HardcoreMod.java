@@ -68,7 +68,6 @@ public class HardcoreMod implements ModInitializer {
             }
 
             // TODO: Abstract out handling
-            // TODO: Rename miscellaneous.json to each creative category and iterate
             // TODO: ITEM, BLOCK
             @Override
             public void apply(ResourceManager manager) {
