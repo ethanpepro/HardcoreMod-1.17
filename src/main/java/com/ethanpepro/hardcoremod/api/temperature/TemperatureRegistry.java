@@ -22,8 +22,7 @@ public class TemperatureRegistry {
         }
     }
 
-    @NotNull
-    public static ImmutableMap<Identifier, ITemperatureModifier> getTemperatureModifiers() {
+    public @NotNull static ImmutableMap<Identifier, ITemperatureModifier> getTemperatureModifiers() {
         return ImmutableMap.copyOf(temperatureModifiers);
     }
 
@@ -35,8 +34,7 @@ public class TemperatureRegistry {
         }
     }
 
-    @NotNull
-    public static ImmutableMap<Identifier, ITemperatureDynamicModifier> getTemperatureDynamicModifiers() {
+    public @NotNull static ImmutableMap<Identifier, ITemperatureDynamicModifier> getTemperatureDynamicModifiers() {
         return ImmutableMap.copyOf(temepratureDynamicModifiers);
     }
 }

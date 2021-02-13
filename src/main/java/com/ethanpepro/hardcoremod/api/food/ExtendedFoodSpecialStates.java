@@ -34,8 +34,7 @@ public enum ExtendedFoodSpecialStates {
         return this.display;
     }
 
-    @Nullable
-    public static ExtendedFoodSpecialStates getStateForSpecial(String special) {
+    public @Nullable static ExtendedFoodSpecialStates getStateForSpecial(String special) {
         return Arrays.stream(values()).filter(value -> value.getName().equals(special)).findFirst().orElse(null);
     }
 

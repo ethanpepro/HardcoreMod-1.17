@@ -18,7 +18,7 @@ public abstract class MixinItemEntity extends Entity {
     }
 
     @Inject(method = "<init>(Lnet/minecraft/world/World;DDDLnet/minecraft/item/ItemStack;)V", at = @At("TAIL"))
-    public void init(World world, double x, double y, double z, ItemStack stack, CallbackInfo info) {
+    private void init(World world, double x, double y, double z, ItemStack stack, CallbackInfo info) {
         if (!stack.isEmpty() && ((IExtendedFoodItem)stack.getItem()).canRot()) {
             if (!stack.getOrCreateTag().contains("age")) {
                 stack.getOrCreateTag().putLong("age", world.getTime());

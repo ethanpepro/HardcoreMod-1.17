@@ -1,6 +1,11 @@
 package com.ethanpepro.hardcoremod.mixin;
 
-import com.ethanpepro.hardcoremod.api.food.*;
+import com.ethanpepro.hardcoremod.api.food.ExtendedFoodComponent;
+import com.ethanpepro.hardcoremod.api.food.ExtendedFoodRegistry;
+import com.ethanpepro.hardcoremod.api.food.ExtendedFoodSpecialStates;
+import com.ethanpepro.hardcoremod.api.food.ExtendedFoodStates;
+import com.ethanpepro.hardcoremod.api.food.IExtendedFoodItem;
+import com.ethanpepro.hardcoremod.api.food.IExtendedFoodItemStack;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -33,7 +38,7 @@ public abstract class MixinItem implements ItemConvertible, IExtendedFoodItem {
         Item item = this.asItem();
         ExtendedFoodComponent component = foodRegistry.get(item);
 
-        return foodRegistry.containsKey(item) ? component.age : 0;
+        return foodRegistry.containsKey(item) && component != null ? component.age : 0;
     }
 
     @Override
@@ -49,12 +54,12 @@ public abstract class MixinItem implements ItemConvertible, IExtendedFoodItem {
     @SuppressWarnings("ConstantConditions")
     @Environment(EnvType.CLIENT)
     @Inject(method = "appendTooltip(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/item/TooltipContext;)V", at = @At("TAIL"))
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context, CallbackInfo info) {
+    private void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context, CallbackInfo info) {
         ImmutableMap<Item, ExtendedFoodComponent> foodRegistry = ExtendedFoodRegistry.getExtendedFoodRegistry();
         Item item = stack.getItem();
         ExtendedFoodComponent component = foodRegistry.get(item);
 
-        if (world != null && foodRegistry.containsKey(item)) {
+        if (world != null && foodRegistry.containsKey(item) && component != null) {
             tooltip.add(LiteralText.EMPTY);
             tooltip.add(new TranslatableText("item.rot.status").formatted(Formatting.GRAY));
 
@@ -63,7 +68,6 @@ public abstract class MixinItem implements ItemConvertible, IExtendedFoodItem {
                 ExtendedFoodStates state = ExtendedFoodStates.getStateForPercentage(rot);
 
                 tooltip.add(new TranslatableText("item.rot.state." + state.getName()).formatted(state.getFormat()));
-                // TODO: Make config option
                 if (!world.getLevelProperties().isHardcore()) {
                     tooltip.add((new TranslatableText("item.rot.format", (int)(Math.min(rot, 1.0f) * 100), new TranslatableText("item.rot.spoiled"))).formatted(Formatting.GRAY));
                 }

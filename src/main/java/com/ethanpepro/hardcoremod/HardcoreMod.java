@@ -1,8 +1,8 @@
 package com.ethanpepro.hardcoremod;
 
+import com.ethanpepro.hardcoremod.api.food.ExtendedFoodComponent;
 import com.ethanpepro.hardcoremod.api.food.ExtendedFoodRegistry;
 import com.ethanpepro.hardcoremod.temperature.HardcoreModTemperatures;
-import com.ethanpepro.hardcoremod.api.food.ExtendedFoodComponent;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -31,6 +31,7 @@ import java.util.Set;
 // TODO: For food preservation systems, like ice boxes, periodically apply a long ageExtension modifier (this would be done as a tag) to age to get a new difference for a time in the future when the food spoils
 // TODO: An ice box example would have a value contained within it that has a long maxAgeExtension that once is reached, the food cannot be preserved any longer
 // TODO: It cannot reverse current % rot, but extend how long it stays fresh
+// TODO: Either this mod, or another mod can provide "salted" versions of meats, and other common food preservation techniques, it can easily be implemented if its a new item (just add it to the config)
 
 // TODO: Make all food items non-stackable? Go back to the old days? Adjust loot tables and stuff too?
 // TODO: If that happens, all ingredients would have to be unstackable, more work to do
@@ -91,8 +92,12 @@ public class HardcoreMod implements ModInitializer {
                             Gson gson = new Gson();
                             JsonObject object = entry.getValue().getAsJsonObject();
                             ExtendedFoodComponent component = gson.fromJson(object, ExtendedFoodComponent.class);
-
-                            ExtendedFoodRegistry.registerExtendedFood(item, component);
+                            // TODO: Requires input validation
+                            if (component != null) {
+                                ExtendedFoodRegistry.registerExtendedFood(item, component);
+                            } else {
+                                throw new Exception("Bad data in: " + key);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

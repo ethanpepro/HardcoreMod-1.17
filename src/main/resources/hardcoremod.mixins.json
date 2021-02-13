@@ -4,9 +4,12 @@
   "package": "com.ethanpepro.hardcoremod.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MixinAbstractFurnaceBlockEntity",
+    "MixinChestBlockEntity",
+    "MixinCraftingScreenHandler",
     "MixinItem",
-    "MixinItemStack",
     "MixinItemEntity",
+    "MixinItemStack"
   ],
   "client": [
     "MixinInGameHud"

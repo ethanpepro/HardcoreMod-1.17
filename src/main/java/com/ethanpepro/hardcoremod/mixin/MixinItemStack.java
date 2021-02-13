@@ -3,7 +3,6 @@ package com.ethanpepro.hardcoremod.mixin;
 import com.ethanpepro.hardcoremod.api.food.IExtendedFoodItem;
 import com.ethanpepro.hardcoremod.api.food.IExtendedFoodItemStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -28,6 +27,9 @@ public abstract class MixinItemStack implements IExtendedFoodItemStack {
     @Shadow
     public @Nullable abstract CompoundTag getTag();
 
+    @Shadow
+    public abstract boolean isEmpty();
+
     @Override
     public long getCurrentAge() {
         return this.getTag() != null ? this.getTag().getLong("age") : 0;
@@ -35,23 +37,19 @@ public abstract class MixinItemStack implements IExtendedFoodItemStack {
 
     // TODO: Just for fun, this can never work out though (see main class)
     @Inject(method = "getMaxCount()I", at = @At("HEAD"), cancellable = true)
-    public void getMaxCount(CallbackInfoReturnable<Integer> info) {
-        if (((IExtendedFoodItem)this.getItem()).canRot()) {
+    private void getMaxCount(CallbackInfoReturnable<Integer> info) {
+        if (!this.isEmpty() && ((IExtendedFoodItem)this.getItem()).canRot()) {
             info.setReturnValue(1);
+            info.cancel();
         }
     }
 
     @Inject(method = "inventoryTick(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V", at = @At("TAIL"))
-    public void inventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo info) {
-        if (((IExtendedFoodItem)this.getItem()).canRot()) {
+    private void inventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo info) {
+        if (!this.isEmpty() && ((IExtendedFoodItem)this.getItem()).canRot()) {
             if (!this.getOrCreateTag().contains("age")) {
                 this.getOrCreateTag().putLong("age", world.getTime());
             }
         }
-    }
-
-    @Inject(method = "finishUsing(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
-    public void finishUsing(World world, LivingEntity user, CallbackInfoReturnable<ItemStack> info) {
-
     }
 }

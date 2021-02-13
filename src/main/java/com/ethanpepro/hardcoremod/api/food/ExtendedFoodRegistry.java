@@ -18,8 +18,7 @@ public class ExtendedFoodRegistry {
         extendedFoodRegistry.clear();
     }
 
-    @NotNull
-    public static ImmutableMap<Item, ExtendedFoodComponent> getExtendedFoodRegistry() {
+    public @NotNull static ImmutableMap<Item, ExtendedFoodComponent> getExtendedFoodRegistry() {
         return ImmutableMap.copyOf(extendedFoodRegistry);
     }
 }
